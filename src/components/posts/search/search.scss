@@ -1,0 +1,28 @@
+.search {
+  position: relative;
+  width: 631px;
+  min-height: 52px;
+
+  &::after {
+    position: absolute;
+    content: '';
+    top: 15px;
+    right: 24px;
+    width: 21px;
+    height: 21px;
+    background: url('../../../img/search-icon.svg') center no-repeat;
+  }
+}
+
+.search__input {
+  @include input-text;
+  width: 100%;
+  padding: 18px 26px 15px;
+  color: #fff;
+  background-color: $bg-medium;
+  border: none;
+
+  &::placeholder {
+    color: $pale-text-color;
+  }
+}
