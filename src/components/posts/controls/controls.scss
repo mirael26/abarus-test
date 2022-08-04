@@ -1,0 +1,26 @@
+.controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 41px;
+}
+
+.controls__prev-button,
+.controls__next-button {
+  @include controls-button-text;
+  color: $text-color;
+}
+
+.controls__pagination {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.controls__pagination-button {
+  @include pagination-text;
+  color: $text-color;
+
+  &.active {
+    color: $accent-text-color;
+  }
+}

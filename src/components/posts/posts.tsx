@@ -2,6 +2,7 @@ import * as React from "react";
 
 import Search from "./search/search";
 import Table from "./table/table";
+import Controls from "./controls/controls";
 
 const Posts = (): JSX.Element => {
   return (
@@ -11,7 +12,7 @@ const Posts = (): JSX.Element => {
 
       <div className="posts__table"><Table /></div>
 
-      <div className="posts__controls"></div>
+      <div className="posts__controls"><Controls /></div>
     </div>
   )
 };
