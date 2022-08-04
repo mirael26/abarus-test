@@ -51,24 +51,29 @@ const Table = (): JSX.Element => {
   const displayedPosts = mock;
   return (
     <table className="table">
-      <tr className="table__header-row">
-        <th className="table__header table__header--id">
-          <button className="table__header-button">ID</button>
-        </th>
-        <th className="table__header table__header--title">
-          <button className="table__header-button">Заголовок</button>
-        </th>
-        <th className="table__header table__header--description">
-          <button className="table__header-button">Описание</button>
-        </th>
-      </tr>
-      {displayedPosts.map((post, i) => {
-        return <tr className="table__row">
-            <td className="table__cell">{post.id}</td>
-            <td className="table__cell">{post.title}</td>
-            <td className="table__cell">{post.body}</td>
-          </tr>
-      })}
+      <thead>
+        <tr className="table__header-row">
+          <th className="table__header table__header--id">
+            <button className="table__header-button">ID</button>
+          </th>
+          <th className="table__header table__header--title">
+            <button className="table__header-button">Заголовок</button>
+          </th>
+          <th className="table__header table__header--description">
+            <button className="table__header-button">Описание</button>
+          </th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {displayedPosts.map((post, i) => {
+          return <tr key={i} className="table__row">
+              <td className="table__cell">{post.id}</td>
+              <td className="table__cell">{post.title}</td>
+              <td className="table__cell">{post.body}</td>
+            </tr>
+        })}
+      </tbody>
     </table>
   )
 };
