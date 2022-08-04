@@ -1,0 +1,41 @@
+// text
+
+@mixin title-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 137.69%;
+}
+
+@mixin input-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 137.69%; 
+}
+
+@mixin button-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 137.69%;
+}
+
+@mixin pagination-text {
+  font-family: 'Roboto';
+  font-style: italic;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 137.69%;
+}
+
+@mixin common-text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 137.69%;
+}
