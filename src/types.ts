@@ -1,3 +1,8 @@
+import { Axios } from "axios";
+import { CombinedState } from "redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AppStatus } from "./consts";
+
 import { ActionType } from "./store/action";
 
 // data
@@ -11,6 +16,8 @@ export interface Post {
 
 export type Posts = Array<Post>;
 
+export type AppStatusType = keyof typeof AppStatus;
+
 // reducers
 
 export interface DataState {
@@ -22,6 +29,15 @@ export interface ViewState {
   currentPage: number,
   pagesCount: number,
 };
+
+export interface StateState {
+  appStatus: AppStatusType,
+};
+
+export type Dispatch = ThunkDispatch<CombinedState<{
+  data: DataState;
+  user: ViewState;
+}>, Axios, Action>;
 
 // actions
 
@@ -45,6 +61,12 @@ export interface UpdatePagesCount {
   payload: number,
 }
 
+export interface ChangeAppStatus {
+  type: typeof ActionType.CHANGE_APP_STATUS,
+  payload: AppStatusType,
+}
+
 export type DataAction = UpdatePosts | UpdateSearchedPosts;
 export type ViewAction = UpdateCurrentPage | UpdatePagesCount;
-export type Action = DataAction | ViewAction;
+export type StateAction = ChangeAppStatus;
+export type Action = DataAction | ViewAction | StateAction;

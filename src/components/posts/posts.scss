@@ -13,3 +13,17 @@
 .posts__table {
   margin-bottom: 16px;
 }
+
+.posts__loading-message {
+  @include controls-button-text;
+  margin: 40px auto;
+  text-align: center;
+  color: $text-color;
+}
+
+.posts__error-message {
+  @include controls-button-text;
+  margin: 40px auto;
+  text-align: center;
+  color: red;
+}
