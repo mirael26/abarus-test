@@ -9,7 +9,7 @@
   @include controls-button-text;
   color: $text-color;
 
-  &:disabled {
+  &.disabled {
     color: $pale-text-color;
     cursor: auto;
   }

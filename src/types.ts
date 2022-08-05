@@ -26,7 +26,6 @@ export interface DataState {
 };
 
 export interface ViewState {
-  currentPage: number,
   pagesCount: number,
 };
 
@@ -51,11 +50,6 @@ export interface UpdateSearchedPosts {
   payload: Posts,
 }
 
-export interface UpdateCurrentPage {
-  type: typeof ActionType.UPDATE_CURRENT_PAGE,
-  payload: number,
-}
-
 export interface UpdatePagesCount {
   type: typeof ActionType.UPDATE_PAGES_COUNT,
   payload: number,
@@ -67,6 +61,6 @@ export interface ChangeAppStatus {
 }
 
 export type DataAction = UpdatePosts | UpdateSearchedPosts;
-export type ViewAction = UpdateCurrentPage | UpdatePagesCount;
+export type ViewAction = UpdatePagesCount;
 export type StateAction = ChangeAppStatus;
 export type Action = DataAction | ViewAction | StateAction;

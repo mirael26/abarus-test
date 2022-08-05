@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useNavigate, useParams } from "react-router-dom";
 
 import { VIEW_COUNT } from "../../../consts";
-import { ActionCreator } from "../../../store/action";
 import { RootState } from "../../../store/store";
 import { Post, Posts } from "../../../types";
 
@@ -16,11 +15,12 @@ const SortMode = {
 
 const Table = (): JSX.Element => {
   const [sortMode, setSortMode] = useState(null);
+  
+  const page = +useParams().page;
+  const navigate = useNavigate();
 
   const posts = useSelector((state: RootState) => state.data.posts);
   const searchedPosts = useSelector((state: RootState) => state.data.searchedPosts);
-  const page = useSelector((state: RootState) => state.view.currentPage);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setSortMode(null);
@@ -41,7 +41,7 @@ const Table = (): JSX.Element => {
 
   const onSortButtonClick = (mode: keyof typeof SortMode) => {
     setSortMode(mode);
-    dispatch(ActionCreator.updateCurrentPage(1));
+    navigate('/posts/1');
   }
 
   const actualPosts = searchedPosts ?? posts;

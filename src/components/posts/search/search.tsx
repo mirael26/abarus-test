@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { VIEW_COUNT } from "../../../consts";
 import { ActionCreator } from "../../../store/action";
@@ -11,6 +12,8 @@ let searchedPosts: Posts = null;
 
 const Search = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState('');
+
+  const navigate = useNavigate();
 
   const posts = useSelector((state: RootState) => state.data.posts)
   const dispatch = useDispatch();
@@ -27,9 +30,8 @@ const Search = (): JSX.Element => {
         dispatch(ActionCreator.updatePagesCount(Math.ceil(searchedPosts.length / VIEW_COUNT))); // обновляем количество страниц
       }
 
-      dispatch(ActionCreator.updateCurrentPage(1)); // переходим на первую страницу
-
-    }, 1500);
+      navigate('/posts/1'); // переходим на первую страницу
+    }, 1000);
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
 

@@ -7,8 +7,8 @@ const App = (): JSX.Element => {
   return (
     <HashRouter>
       <Routes>
-        <Route path='/' element={<Navigate replace to='/posts' />}/>
-        <Route path='/posts' element={<Posts />}/>
+        <Route path='/' element={<Navigate replace to='/posts/1' />}/>
+        <Route path='/posts/:page' element={<Posts />}/>
       </Routes>
     </HashRouter>
   )
