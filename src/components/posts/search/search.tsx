@@ -1,9 +1,53 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { VIEW_COUNT } from "../../../consts";
+import { ActionCreator } from "../../../store/action";
+import { RootState } from "../../../store/store";
+import { Posts } from "../../../types";
+
+let searchedPosts: Posts = null;
 
 const Search = (): JSX.Element => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const posts = useSelector((state: RootState) => state.data.posts)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => { // обновляем данные с задержкой
+
+      if (!searchQuery) { // проверяем есть ли содержимое в инпуте
+        dispatch(ActionCreator.updateSearchedPosts(null)); // очищаем массив найденных постов
+        dispatch(ActionCreator.updatePagesCount(Math.ceil(posts.length / VIEW_COUNT))); // обновляем количество страниц
+      } else {
+        searchPosts();
+        dispatch(ActionCreator.updateSearchedPosts(searchedPosts)); // записываем массив найденных постов
+        dispatch(ActionCreator.updatePagesCount(Math.ceil(searchedPosts.length / VIEW_COUNT))); // обновляем количество страниц
+      }
+
+      dispatch(ActionCreator.updateCurrentPage(1)); // переходим на первую страницу
+
+    }, 1500);
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery]);
+
+  const searchPosts = () => {
+    searchedPosts = posts.filter(post => { // создаем массив прошедших проверку постов
+      const query = new RegExp(`${searchQuery}`, 'i');
+      return query.test(post.title) || query.test(post.title); // проверяем, есть ли строка в заголовке или теле поста
+    });
+  };
+
   return (
     <div className="search">
-      <input className="search__input" type="text" placeholder="Поиск"/>
+      <input
+        className="search__input"
+        type="text"
+        placeholder="Поиск"
+        value={searchQuery}
+        onChange={evt => setSearchQuery(evt.target.value)}/>
     </div>
   )
 };
