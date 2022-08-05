@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -21,6 +21,10 @@ const Table = (): JSX.Element => {
   const searchedPosts = useSelector((state: RootState) => state.data.searchedPosts);
   const page = useSelector((state: RootState) => state.view.currentPage);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setSortMode(null);
+  }, [posts, searchedPosts])
 
   const sortPosts = (posts: Posts) => {
     switch (sortMode) {
