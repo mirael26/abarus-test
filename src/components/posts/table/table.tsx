@@ -1,12 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ActionCreator } from "../../../store/action";
 
+
+import { VIEW_COUNT } from "../../../consts";
+import { ActionCreator } from "../../../store/action";
 import { RootState } from "../../../store/store";
 import { Post, Posts } from "../../../types";
-
-const VIEW_COUNT = 10;
 
 const SortMode = {
   ID: 'ID',

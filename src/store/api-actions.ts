@@ -1,6 +1,6 @@
 import axios from "axios";
-import { AppStatus } from "../consts";
 
+import { AppStatus, VIEW_COUNT } from "../consts";
 import { Dispatch } from "../types";
 import { ActionCreator } from "./action";
 
@@ -19,6 +19,7 @@ export const getPosts = () => {
 
     if (response.status >= 200 && response.status < 300) {
       dispatch(ActionCreator.updatePosts(response.data));
+      dispatch(ActionCreator.updatePagesCount(Math.ceil(response.data.length / VIEW_COUNT)));
       dispatch(ActionCreator.changeAppStatus(AppStatus.READY));
     } else {
       dispatch(ActionCreator.changeAppStatus(AppStatus.ERROR));

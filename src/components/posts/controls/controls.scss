@@ -8,6 +8,11 @@
 .controls__next-button {
   @include controls-button-text;
   color: $text-color;
+
+  &:disabled {
+    color: $pale-text-color;
+    cursor: auto;
+  }
 }
 
 .controls__pagination {
