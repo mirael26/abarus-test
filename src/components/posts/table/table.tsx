@@ -1,66 +1,65 @@
 import * as React from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ActionCreator } from "../../../store/action";
 
-const mock = [
-  {
-    userId: 1,
-    id: 1,
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-  },
-  {
-    userId: 1,
-    id: 2,
-    title: "qui est esse",
-    body: "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
-  },
-  {
-    userId: 1,
-    id: 3,
-    title: "ea molestias quasi exercitationem repellat qui ipsa sit aut",
-    body: "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
-  },
-  {
-    userId: 1,
-    id: 4,
-    title: "eum et est occaecati",
-    body: "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
-  },
-  {
-    userId: 1,
-    id: 5,
-    title: "nesciunt quas odio",
-    body: "repudiandae veniam quaerat sunt sed\nalias aut fugiat sit autem sed est\nvoluptatem omnis possimus esse voluptatibus quis\nest aut tenetur dolor neque"
-  },
-  {
-    userId: 1,
-    id: 6,
-    title: "dolorem eum magni eos aperiam quia",
-    body: "ut aspernatur corporis harum nihil quis provident sequi\nmollitia nobis aliquid molestiae\nperspiciatis et ea nemo ab reprehenderit accusantium quas\nvoluptate dolores velit et doloremque molestiae"
-  },
-  {
-    userId: 1,
-    id: 7,
-    title: "magnam facilis autem",
-    body: "dolore placeat quibusdam ea quo vitae\nmagni quis enim qui quis quo nemo aut saepe\nquidem repellat excepturi ut quia\nsunt ut sequi eos ea sed quas"
-  }
-];
+import { RootState } from "../../../store/store";
+import { Post, Posts } from "../../../types";
 
 const VIEW_COUNT = 10;
 
+const SortMode = {
+  ID: 'ID',
+  TITLE: 'TITLE',
+  BODY: 'BODY',
+} as const;
+
 const Table = (): JSX.Element => {
-  const displayedPosts = mock;
+  const [sortMode, setSortMode] = useState(null);
+
+  const posts = useSelector((state: RootState) => state.data.posts);
+  const searchedPosts = useSelector((state: RootState) => state.data.searchedPosts);
+  const page = useSelector((state: RootState) => state.view.currentPage);
+  const dispatch = useDispatch();
+
+  const sortPosts = (posts: Posts) => {
+    switch (sortMode) {
+      case SortMode.ID:
+        return posts.sort((a: Post, b: Post) => b.id - a.id);
+      case SortMode.TITLE:
+        return posts.sort((a: Post, b: Post) => a.title > b.title ? 1 : -1);
+      case SortMode.BODY:
+          return posts.sort((a: Post, b: Post) => a.body > b.body ? 1 : -1);
+      default:
+        return posts;
+    }
+  }
+
+  const onSortButtonClick = (mode: keyof typeof SortMode) => {
+    setSortMode(mode);
+    dispatch(ActionCreator.updateCurrentPage(1));
+  }
+
+  const actualPosts = searchedPosts ?? posts;
+
+  const displayedPosts = sortPosts(actualPosts.slice()) // дублируем и сортируем массив
+    .slice((VIEW_COUNT * page - VIEW_COUNT), (VIEW_COUNT * page)); // находим нужный кусок массива по текущей странице
+    
+  const emptyRowsCount = VIEW_COUNT - displayedPosts.length; // вычисляем, сколько строк таблицы остались не заполнены
+  const emptyRows = emptyRowsCount > 0 ? Array(emptyRowsCount).fill(null) : null; // создаем массив с пустыми значениями для незаполненных строк
+
   return (
     <table className="table">
       <thead>
         <tr className="table__header-row">
           <th className="table__header table__header--id">
-            <button className="table__header-button">ID</button>
+            <button className="table__header-button" onClick={() => onSortButtonClick(SortMode.ID)}>ID</button>
           </th>
           <th className="table__header table__header--title">
-            <button className="table__header-button">Заголовок</button>
+            <button className="table__header-button" onClick={() => onSortButtonClick(SortMode.TITLE)}>Заголовок</button>
           </th>
           <th className="table__header table__header--description">
-            <button className="table__header-button">Описание</button>
+            <button className="table__header-button" onClick={() => onSortButtonClick(SortMode.BODY)}>Описание</button>
           </th>
         </tr>
       </thead>
@@ -73,6 +72,16 @@ const Table = (): JSX.Element => {
               <td className="table__cell">{post.body}</td>
             </tr>
         })}
+
+        {emptyRows
+          ? emptyRows.map((post, i) => {
+              return <tr key={i} className="table__row">
+                  <td className="table__cell"></td>
+                  <td className="table__cell"></td>
+                  <td className="table__cell"></td>
+                </tr>
+             })
+          : null}
       </tbody>
     </table>
   )
