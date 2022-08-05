@@ -23,7 +23,7 @@ const Controls = (): JSX.Element => {
 
         {paginationButtons.map((el, i) => {
           const page = i + 1;
-          const isActive = (page === currentPage);
+          const isActive = (page === currentPage || pagesCount === 0);
           return <button
               key={i}
               className={`controls__pagination-button${isActive ? ' active' : ''}`}
@@ -36,7 +36,7 @@ const Controls = (): JSX.Element => {
 
       <button
         className="controls__next-button"
-        disabled={currentPage === pagesCount}
+        disabled={currentPage === pagesCount || pagesCount === 0}
         onClick={() => dispatch(ActionCreator.updateCurrentPage(currentPage + 1))}>
           Вперед
       </button>
